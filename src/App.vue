@@ -129,7 +129,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .md-drawer {
     width: 230px;
     max-width: calc(100vw - 125px);
@@ -157,8 +157,12 @@
     text-align: center;
   }
 
-  .md-select-menu .md-menu-content {
-    z-index: 111;
+  /*.md-select-menu.md-menu-content-bottom-start.md-menu-content-small.md-menu-content.md-theme-default {*/
+    /*z-index: 111 !important;*/
+  /*}*/
+
+  .md-select-menu.md-menu-content {
+    z-index: 111 !important;
   }
 
   .md-avatar.md-huge {

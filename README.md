@@ -1,6 +1,6 @@
-# vuequick
+# Self Track (Progressive Web App)
 
-> A Vue.js project
+> A self tracking progressive web app
 
 ## Build Setup
 

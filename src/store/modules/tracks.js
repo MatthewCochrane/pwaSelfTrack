@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import firestore from '../firestore'
+import _ from 'lodash'
+import arrStat from '@/helpers/arr_stat'
+import moment from 'moment-timezone'
 
 export default {
   state: {
@@ -36,7 +39,7 @@ export default {
       return firestore.tracksColRef.doc(track.id).set(clone)
     },
     addDataToTrack ({ commit }, { trackId, newData }) {
-      return firestore.tracksColRec.doc(trackId).collection('data').add(newData)
+      return firestore.tracksColRef.doc(trackId).collection('data').add(newData)
     },
     updateDataInTrack ({ commit }, { trackId, data }) {
       let clone = Object.assign({}, data)
@@ -47,10 +50,27 @@ export default {
   getters: {
     getTrackById: (state) => (id) => {
       return state.tracks[id]
-      // return state.tracks.find(track => track.id === id)
     },
-    sortedTrackData: (state) => (id, options) => {
+    customSortedTrackData: (state) => (id, options) => {
+      let [sortColumn, sortOrder] = options.sortBy.split('-')
 
+      let sumPeriod = _.get(options, 'sumPeriod', 'none')
+      let sumType = _.get(options, 'sumType')
+      if (sumPeriod !== 'none' && sumType) {
+        let sortedData = _.orderBy(state.trackData[id], ['time'], ['desc'])
+        let grouped = _.groupBy(sortedData, d => moment(d.time).startOf(sumPeriod).format())
+        var sumFunc = arrStat[sumType]
+        let unmapped = _.mapValues(grouped, day => sumFunc(_.map(day, d => parseFloat(d.data))))
+        return _.map(unmapped, (val, key) => ({ time: key, data: val }))
+      }
+
+      return _.orderBy(state.trackData[id], [sortColumn], [sortOrder])
+    },
+    sortedTrackData: (state, getters) => (id) => {
+      let track = state.tracks[id]
+      if (!track.sortBy) track.sortBy = 'time-desc'
+
+      return getters.customSortedTrackData(id, track)
     }
   }
 }

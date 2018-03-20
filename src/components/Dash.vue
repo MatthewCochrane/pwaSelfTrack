@@ -4,14 +4,14 @@
       <!--<div class="md-layout-item md-size-40">-->
 
         <md-empty-state
-          v-if="tracks.length === 0"
+          v-if="$lodash.isEmpty(tracks)"
           md-icon="all_inclusive"
           md-label="Create your first track"
           md-description="Your tracks will appear here once you create some">
           <md-button class="md-primary md-raised" @click="showAddTrackDialog = true">Create first track</md-button>
         </md-empty-state>
 
-        <div v-if="tracks.length > 0">
+        <div v-if="!$lodash.isEmpty(tracks)">
           <md-card class="track-card md-primary" :md-theme="track.colour + '-card'"
                    v-for="track in tracks"
                    v-bind:key="track.id" md-with-hover>
@@ -162,7 +162,13 @@
         this.showAddTrackDialog = false
       },
       addTrackFromDialog () {
-        this.$store.dispatch('addTrack', {name: this.newTrackName, type: this.newTrackType, colour: 'white'})
+        this.$store.dispatch('addTrack', {
+          name: this.newTrackName,
+          type: this.newTrackType,
+          colour: 'white',
+          sortBy: 'time-desc',
+          timeFormat: 'calendar'
+        })
         this.closeAddTrackDialog()
       },
       editTrack (track) {

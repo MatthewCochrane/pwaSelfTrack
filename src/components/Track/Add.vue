@@ -1,7 +1,7 @@
 <template>
   <div v-if="track">
     <form novalidate class="md-layout" @submit.prevent="validateUser">
-      <md-card class="md-layout-item md-size-50 md-small-size-100">
+      <md-card class="md-layout-item md-size-50 md-small-size-100" style="margin-bottom: 150px">
         <md-card-header>
           <div class="md-title">Add Entry</div>
         </md-card-header>
@@ -114,7 +114,7 @@
     methods: {
       dateAndTimeToDate () {
         let retDate = this.date
-        retDate.setHours(parseInt(this.timeVal.hh) + this.timeVal.A === 'PM' ? 12 : 0)
+        retDate.setHours(parseInt(this.timeVal.hh) + ((this.timeVal.A === 'PM') ? 12 : 0))
         retDate.setMinutes(parseInt(this.timeVal.mm))
         retDate.setSeconds(parseInt(this.timeVal.ss))
         return retDate

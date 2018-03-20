@@ -5,6 +5,7 @@ import firebase from 'firebase'
 import Dash from '@/components/Dash'
 import Track from '@/components/Track'
 import TrackList from '@/components/Track/List'
+import TrackGraph from '@/components/Track/Graph'
 import TrackStats from '@/components/Track/Stats'
 import TrackSettings from '@/components/Track/Settings'
 import TrackAddData from '@/components/Track/Add'
@@ -42,6 +43,10 @@ let router = new Router({
         {
           path: 'list',
           component: TrackList
+        },
+        {
+          path: 'graph',
+          component: TrackGraph
         },
         {
           path: 'stats',

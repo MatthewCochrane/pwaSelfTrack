@@ -11,8 +11,13 @@ import './store/firestore'
 import firebase from 'firebase'
 import VueTimepicker from 'vue2-timepicker'
 import lodash from 'lodash'
-// let moment = require('moment-timezone')
-// window.moment = moment
+import arrStat from './helpers/arr_stat'
+
+let moment = require('moment-timezone')
+
+window.moment = moment
+window._ = lodash
+window.arrStat = arrStat
 
 Object.defineProperty(Vue.prototype, '$lodash', { value: lodash })
 
